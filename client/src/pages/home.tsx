@@ -1,14 +1,16 @@
 import Sidebar from "@/components/sidebar";
-import AddPopup from "@/components/addPopup";
+import AddElementForm from "@/components/addElementForm";
 import Table from "@/components/table";
 
 export default function Home() {
   return (
-    <main className="flex flex-col justify-center items-center ">
+    <main className="flex ">
       <Sidebar />
-      {/* <AddPopup /> */}
+      <section className="flex flex-col  items-center  w-full">
+        <AddElementForm />
 
-      <Table />
+        {/* <Table /> */}
+      </section>
     </main>
   );
 }

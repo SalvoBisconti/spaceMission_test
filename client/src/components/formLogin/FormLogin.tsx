@@ -18,12 +18,11 @@ const FormLogin = () => {
       },
       body: JSON.stringify(userData),
     })
-      .then((response) => {
-        if (!response.ok) {
-          console.log("dati sbagliati");
+      .then((res) => {
+        if (!res.ok) {
           throw new Error("Credenziali non valide");
         }
-        return response.json();
+        return res.json();
       })
       .then((result) => {
         if (result.exists) {
@@ -35,15 +34,14 @@ const FormLogin = () => {
       })
       .catch((error) => {
         console.error("Errore:", error);
-        alert("Email o password errati!");
       });
   };
 
   return (
     <div className=" w-[22rem] rounded bg bg-primary text-text flex flex-col justify-center items-center gap-3 p-5">
       <div className="bg-secondary rounded px-2 w-[90%] ">
-        <label htmlFor="username" className="px-4 text-xs text-lowGrey">
-          Inserisci username
+        <label htmlFor="email" className="px-4 text-xs text-lowGrey">
+          Inserisci email
         </label>
         <input
           type="text"
@@ -55,7 +53,6 @@ const FormLogin = () => {
         />
       </div>
       <div className="bg-secondary rounded p-2 w-[90%] ">
-        {/* <label htmlFor="username"> Inserisci password</label> */}
         <input
           type="password"
           className="w-full bg-transparent outline-none px-4"

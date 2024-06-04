@@ -1,11 +1,8 @@
-const AddPopup = () => {
+const AddElementForm = () => {
   return (
-    <div className=" w-[22rem] rounded bg bg-primary text-text flex flex-col justify-center items-center gap-3 p-5 z-50 relative">
-      <h2 className="absolute cursor-pointer -top-4 -right-2 bg-text text-primary font-bold border rounded-full px-2 py-1">
-        X
-      </h2>
+    <div className=" text-text flex flex-col justify-center items-center gap-3 p-5 ">
       <h2 className="self-start mb-3">Inserisci un nuovo shuttle</h2>
-      <div className="bg-secondary rounded px-2 w-[90%] ">
+      <div className="bg-primary rounded px-2 w-[90%] ">
         <label htmlFor="name" className="px-4 text-xs text-lowGrey">
           Nome shuttle
         </label>
@@ -14,7 +11,7 @@ const AddPopup = () => {
           className="w-full bg-transparent outline-none px-4"
         />
       </div>
-      <div className="bg-secondary rounded px-2 w-[90%] ">
+      <div className="bg-primary rounded px-2 w-[90%] ">
         <label htmlFor="mission" className="px-4 text-xs text-lowGrey">
           Missione
         </label>
@@ -31,4 +28,4 @@ const AddPopup = () => {
   );
 };
 
-export default AddPopup;
+export default AddElementForm;
