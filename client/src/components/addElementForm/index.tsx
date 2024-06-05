@@ -1,2 +1,2 @@
-import AddElementForm from "./addElementForm";
+import AddElementForm from "./AddElementForm";
 export default AddElementForm;

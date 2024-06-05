@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { userType } from "@/mocks/dataType";
 import { useRouter } from "next/router";
+import { POST } from "@/utils/http";
 
 const FormLogin = () => {
   const router = useRouter();
@@ -10,31 +11,17 @@ const FormLogin = () => {
     email: "",
   });
 
+  const loginToDo = (result: any) => {
+    if (result.exists) {
+      localStorage.setItem("LoggedUser", JSON.stringify(result.utente));
+      router.push("/home");
+    } else {
+      alert("Dati errati");
+    }
+  };
+
   const onHandleControl = (): void => {
-    fetch("http://localhost:8080/api/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Credenziali non valide");
-        }
-        return res.json();
-      })
-      .then((result) => {
-        if (result.exists) {
-          localStorage.setItem("LoggedUser", JSON.stringify(result.utente));
-          router.push("/home");
-        } else {
-          alert("Email o password errati!");
-        }
-      })
-      .catch((error) => {
-        console.error("Errore:", error);
-      });
+    POST("users/login", userData, "Credenziali errate", loginToDo);
   };
 
   return (

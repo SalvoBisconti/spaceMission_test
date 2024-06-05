@@ -1,32 +1,45 @@
-import { shuttleType } from "@/mocks/dataType";
-import { useState } from "react";
+import { shuttleType, shuttlesDataType } from "@/mocks/dataType";
+import { POST } from "@/utils/http";
+import { Dispatch, useState } from "react";
 
-const AddElementForm = () => {
+const AddElementForm = (props: {
+  dataShuttles: shuttlesDataType[];
+  setDataShuttles: Dispatch<React.SetStateAction<shuttlesDataType[]>>;
+}) => {
+  const { dataShuttles, setDataShuttles } = props;
+
   const [shuttleData, setShuttleData] = useState<shuttleType>({
     name: "",
     mission: "",
   });
 
+  const addElementToDo = (result: any) => {
+    if (result) {
+      console.log("Shuttle aggiunto:", result);
+    } else {
+      alert("Dati errati");
+    }
+  };
+
   const onHandleAdd = (): void => {
-    fetch("http://localhost:8080/api/shuttles/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(shuttleData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Errore: " + response.statusText);
-        }
-        return response.json();
-      })
-      .then((result) => {
-        console.log("Shuttle aggiunto:", result);
-      })
-      .catch((error) => {
-        console.error("Errore nella richiesta:", error);
+    if (
+      dataShuttles.find((element) => element.name == shuttleData?.name) ==
+      undefined
+    ) {
+      POST(
+        "shuttles/add",
+        shuttleData,
+        "Errore nella richiesta",
+        addElementToDo
+      );
+      setShuttleData({
+        name: "",
+        mission: "",
       });
+      alert("Aggiunto");
+    } else {
+      alert("Nome già presente");
+    }
   };
 
   return (
