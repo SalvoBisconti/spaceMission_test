@@ -10,7 +10,7 @@ const FormLogin = () => {
     email: "",
   });
 
-  const onHandleControl = () => {
+  const onHandleControl = (): void => {
     fetch("http://localhost:8080/api/users/login", {
       method: "POST",
       headers: {

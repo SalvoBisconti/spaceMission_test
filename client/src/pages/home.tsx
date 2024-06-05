@@ -7,9 +7,9 @@ export default function Home() {
     <main className="flex ">
       <Sidebar />
       <section className="flex flex-col  items-center  w-full">
-        <AddElementForm />
+        {/* <AddElementForm /> */}
 
-        {/* <Table /> */}
+        <Table />
       </section>
     </main>
   );
