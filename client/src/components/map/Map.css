@@ -1,0 +1,77 @@
+.Map {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+}
+
+.Map_container {
+    display: flex;
+    height: 50vh;
+    margin: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--primary-color);
+}
+
+.Map_button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+    background-color: var(--primary-color);
+    color: var(--tertiary-color);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Styles leaflet */
+
+.leaflet-container {
+    z-index: 0;
+}
+
+.leaflet-popup-content-wrapper {
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+}
+
+.leaflet-popup-content {
+    color: var(--tertiary-color);
+}
+
+.leaflet-popup-tip {
+    background: var(--tertiary-color);
+}
+
+.leaflet-bar a, .leaflet-bar a:hover {
+    background-color: var(--tertiary-color);
+    color: var(--primary-color)
+}
+
+.leaflet-container .leaflet-control-attribution {
+    display: none;
+}
+
+/* MediaQueries Mobile */
+@media screen and (max-width: 480px) {
+    .Map_container {
+        height: 30vh;
+        margin: 10px;
+    }
+    .Map_button {
+        margin-bottom: 10px;
+    }
+}
+

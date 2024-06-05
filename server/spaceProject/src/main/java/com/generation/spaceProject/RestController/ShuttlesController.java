@@ -42,8 +42,14 @@ public class ShuttlesController {
     
     
 	@PostMapping("/add") 
-		public Shuttles addShuttle(@RequestBody Shuttles shuttle){
+		public ResponseEntity<Shuttles> addShuttle(@RequestBody Shuttles shuttle){
+		if(shuttle.getName() == null || shuttle.getMission().isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);	
+		}
 		shuttlesService.addShuttle(shuttle);
-			return shuttle ;
+		return new ResponseEntity<>(shuttle, HttpStatus.CREATED);
 		}
 }
+
+
+
