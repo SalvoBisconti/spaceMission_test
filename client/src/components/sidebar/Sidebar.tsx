@@ -47,7 +47,7 @@ const Sidebar = (prop: {
       <ul className="overflow-hidden flex flex-col gap-2 ">
         {menuName.map((element, i) => (
           <li
-            className="cursor-pointer hover:bg-secondary py-2 rounded text-center  "
+            className="cursor-pointer hover:bg-secondary hover:font-bold py-2 rounded text-center  "
             key={i}
             id={`${element.toLowerCase()}`}
             onClick={() => onHandleClick(element.toLowerCase())}

@@ -1,65 +1,53 @@
-import React from "react";
-import GoogleMapReact from "google-map-react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import { useEffect, useState } from "react";
+import { ISSPosition } from "@/mocks/dataType";
 
-// const ISS_URL = "http://api.open-notify.org/iss-now.json"
-// const MAP_KEY = process.env.REACT_APP_MAP_KEY
-// const img = <img src = "./iss.svg" alt = "iss" height = "30px"/>
+const icon = L.icon({
+  iconUrl: "/iss-icon.png",
+  iconSize: [35, 35],
+});
 
-// const SpaceStation = ({ img }) => <div>{img}</div>
+const Map = () => {
+  const [position, setPosition] = useState<ISSPosition | null>(null);
 
-// class Map extends React.Component{
-//     state = {
-//         center: {
-//             lat: 0,
-//             lng: 0
-//         },
-//         zoom: 1
-//     }
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
+      const data = await res.json();
+      setPosition(data);
+    };
 
-//     componentDidMount(){
-//         this.getCoordinates()
-//         this.interval = setInterval(this.getCoordinates, 3000)
-//     }
+    fetchData();
 
-//     componentWillUnmount(){
-//         clearInterval(this.interval)
-//     }
+    const interval = setInterval(fetchData, 5000);
 
-//     getCoordinates = () => {
-//         fetch(ISS_URL)
-//             .then(res => res.json())
-//             .then(data => this.setState({
-//                 center: {
-//                     lat: data.iss_position.latitude,
-//                     lng: data.iss_position.longitude
-//                 }
-//             }))
-//     }
+    return () => clearInterval(interval);
+  }, []);
 
-//     render(){
-//         console.log("LAT:", this.state.center.lat)
-//         console.log("LNG:", this.state.center.lng)
-//         return(
-//             <div>
-//                 <p>Latitude: {this.state.center.lat}</p>
-//                 <p>Longitude: {}</p>
-//                 <div className = "map" style={{ height: '100vh', width: '100%' }}>
-//                     <GoogleMapReact className = "map"
-//                         bootstrapURLKeys={{key: MAP_KEY }}
-//                         center={this.state.center}
-//                         zoom={this.state.zoom}
-//                     >
-//                     <SpaceStation
-
-//                         lat = {this.state.center.lat}
-//                         lng = {this.state.center.lng}
-//                         img = {img}
-//                     />
-//                     </GoogleMapReact>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
+  return (
+    <div className="border rounded w-full h-[80vh] ">
+      <MapContainer
+        center={[0, 0]}
+        zoom={2}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        {position && (
+          <Marker
+            position={[position.latitude, position.longitude]}
+            icon={icon}
+          >
+            <Popup>
+              ISS Current Position
+              <br /> Latitude: {position.latitude}
+              <br /> Longitude: {position.longitude}
+            </Popup>
+          </Marker>
+        )}
+      </MapContainer>
+    </div>
+  );
+};
 
 export default Map;

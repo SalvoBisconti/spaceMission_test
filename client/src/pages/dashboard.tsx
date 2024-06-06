@@ -7,6 +7,12 @@ import { shuttlesDataType } from "@/mocks/dataType";
 import { popupType } from "@/mocks/dataType";
 import { useState, useEffect } from "react";
 import Popup from "@/components/popup";
+import * as React from "react";
+import dynamic from "next/dynamic";
+// import Map from "react-map-gl/maplibre";
+// import Map from "@/components/map";
+
+const Map = dynamic(() => import("@/components/map"), { ssr: false });
 
 export default function Dashboard() {
   const [dataShuttles, setDataShuttles] = useState<shuttlesDataType[]>([]);
@@ -20,22 +26,6 @@ export default function Dashboard() {
   useEffect(() => {
     GET("shuttles").then((data) => setDataShuttles(data));
   }, []);
-
-  // const ISSData = {
-  //   name: "iss",
-  //   id: 25544,
-  //   latitude: -48.297331139348,
-  //   longitude: -106.73686021548,
-  //   altitude: 426.70166092797,
-  //   velocity: 27566.507974614,
-  //   visibility: "eclipsed",
-  //   footprint: 4541.4025544911,
-  //   timestamp: 1717584905,
-  //   daynum: 2460466.954919,
-  //   solar_lat: 22.625181001928,
-  //   solar_lon: 15.882158988019,
-  //   units: "kilometers",
-  // };
 
   return (
     <main className="flex ">
@@ -62,8 +52,12 @@ export default function Dashboard() {
           </>
         )}
         {menuView === "track" && (
-          // <Map />
-          <div>Map Component</div>
+          <>
+            <h2 className="self-start mb-3 text-text text-xl font-semibold">
+              Posizione ISS in tempo reale
+            </h2>
+            <Map />
+          </>
         )}
       </section>
     </main>
