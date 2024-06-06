@@ -35,7 +35,7 @@ const Sidebar = (prop: {
 
   return (
     <div className="bg-primary border-r rounded-tr rounded-br min-h-screen w-[32vw] md:w-[20vw] text-text flex flex-col gap-8 z-20 ">
-      <div className="flex  items-center gap-2  p-2">
+      <div className="flex  items-center gap-2 px-2 py-3">
         <img
           src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
           alt="profile"

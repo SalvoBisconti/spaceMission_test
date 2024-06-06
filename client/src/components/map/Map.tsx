@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import L from "leaflet";
 import { useEffect, useState } from "react";
 import { ISSPosition } from "@/mocks/dataType";
@@ -34,16 +34,24 @@ const Map = () => {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {position && (
-          <Marker
-            position={[position.latitude, position.longitude]}
-            icon={icon}
-          >
-            <Popup>
-              ISS Current Position
-              <br /> Latitude: {position.latitude}
-              <br /> Longitude: {position.longitude}
-            </Popup>
-          </Marker>
+          <>
+            <Marker
+              position={[position.latitude, position.longitude]}
+              icon={icon}
+            >
+              <Popup>
+                ISS Current Position
+                <br /> Latitude: {position.latitude}
+                <br /> Longitude: {position.longitude}
+              </Popup>
+            </Marker>
+            <Circle
+              center={[position.latitude, position.longitude]}
+              radius={position.footprint * 600}
+              weight={0}
+              color="#404157"
+            />
+          </>
         )}
       </MapContainer>
     </div>
