@@ -1,93 +1,65 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
-import L from "leaflet";
-import icon from "../../assets/issdaylight.svg";
-import icon1 from "../../assets/isseclipsed.svg";
+import GoogleMapReact from "google-map-react";
 
-const ISSMarkerdaylight = L.icon({
-  iconUrl: icon,
-  iconSize: [45, 45],
-  iconAnchor: [25, 50],
-  popupAnchor: [0, -50],
-});
+// const ISS_URL = "http://api.open-notify.org/iss-now.json"
+// const MAP_KEY = process.env.REACT_APP_MAP_KEY
+// const img = <img src = "./iss.svg" alt = "iss" height = "30px"/>
 
-const ISSMarkereclipsed = L.icon({
-  iconUrl: icon1,
-  iconSize: [45, 45],
-  iconAnchor: [25, 50],
-  popupAnchor: [0, -50],
-});
+// const SpaceStation = ({ img }) => <div>{img}</div>
 
-const Map = () => {
-  const [issPosition, setISSPosition] = React.useState({ lat: 0, lng: 0 });
-  const [issVisibility, setISSVisibility] = React.useState("daylight");
+// class Map extends React.Component{
+//     state = {
+//         center: {
+//             lat: 0,
+//             lng: 0
+//         },
+//         zoom: 1
+//     }
 
-  React.useEffect(() => {
-    const getISSPosition = async () => {
-      try {
-        const response = await fetch(
-          "https://api.wheretheiss.at/v1/satellites/25544"
-        );
-        const data = await response.json();
-        setISSPosition({ lat: data.latitude, lng: data.longitude });
-        setISSVisibility(data.visibility);
-      } catch (error) {
-        console.error("Errore nel recupero della posizione dell'ISS:", error);
-      }
-    };
-    getISSPosition();
-    const interval = setInterval(getISSPosition, 3000);
-    return () => clearInterval(interval);
-  }, []);
+//     componentDidMount(){
+//         this.getCoordinates()
+//         this.interval = setInterval(this.getCoordinates, 3000)
+//     }
 
-  const goToISSPosition = () => {
-    mapRef.current?.setView(issPosition, 3);
-  };
+//     componentWillUnmount(){
+//         clearInterval(this.interval)
+//     }
 
-  const mapRef = React.useRef<any>();
+//     getCoordinates = () => {
+//         fetch(ISS_URL)
+//             .then(res => res.json())
+//             .then(data => this.setState({
+//                 center: {
+//                     lat: data.iss_position.latitude,
+//                     lng: data.iss_position.longitude
+//                 }
+//             }))
+//     }
 
-  const ISSPositionMarker = () => {
-    const map = useMap();
-    map.setView(issPosition, map.getZoom());
-    return null;
-  };
+//     render(){
+//         console.log("LAT:", this.state.center.lat)
+//         console.log("LNG:", this.state.center.lng)
+//         return(
+//             <div>
+//                 <p>Latitude: {this.state.center.lat}</p>
+//                 <p>Longitude: {}</p>
+//                 <div className = "map" style={{ height: '100vh', width: '100%' }}>
+//                     <GoogleMapReact className = "map"
+//                         bootstrapURLKeys={{key: MAP_KEY }}
+//                         center={this.state.center}
+//                         zoom={this.state.zoom}
+//                     >
+//                     <SpaceStation
 
-  return (
-    <section className="">
-      <MapContainer
-        className=""
-        center={[0, 0]}
-        zoom={3}
-        scrollWheelZoom={false}
-        ref={mapRef}
-      >
-        <TileLayer
-          url="https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}"
-          accessToken={process.env.REACT_APP_TOKEN_KEY}
-          id="mapbox/navigation-night-v1"
-        />
-        <Marker
-          position={issPosition}
-          icon={
-            issVisibility === "daylight" ? ISSMarkerdaylight : ISSMarkereclipsed
-          }
-        >
-          <Popup>
-            <h2>ISS</h2>
-            <p>Latitude: {issPosition.lat}</p>
-            <p>Longitude: {issPosition.lng}</p>
-            <p>Visibility: {issVisibility === "daylight" ? "Day" : "Night"}</p>
-          </Popup>
-        </Marker>
-        <ISSPositionMarker />
-      </MapContainer>
-      <div className="">
-        <button className="" onClick={goToISSPosition}>
-          Center on ISS
-        </button>
-      </div>
-    </section>
-  );
-};
+//                         lat = {this.state.center.lat}
+//                         lng = {this.state.center.lng}
+//                         img = {img}
+//                     />
+//                     </GoogleMapReact>
+//                 </div>
+//             </div>
+//         )
+//     }
+// }
 
 export default Map;

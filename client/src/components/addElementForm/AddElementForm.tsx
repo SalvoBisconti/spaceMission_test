@@ -1,23 +1,40 @@
 import { shuttleType, shuttlesDataType } from "@/mocks/dataType";
 import { POST } from "@/utils/http";
 import { Dispatch, useState } from "react";
+import { popupType } from "@/mocks/dataType";
 
 const AddElementForm = (props: {
   dataShuttles: shuttlesDataType[];
-  setDataShuttles: Dispatch<React.SetStateAction<shuttlesDataType[]>>;
+  setPopupSettings: Dispatch<React.SetStateAction<any>>;
 }) => {
-  const { dataShuttles, setDataShuttles } = props;
+  const { dataShuttles, setPopupSettings } = props;
 
   const [shuttleData, setShuttleData] = useState<shuttleType>({
     name: "",
     mission: "",
   });
 
+  const setTimeoutFunc = (textInput: string, animationType: string) => {
+    setPopupSettings((prev: popupType) => ({
+      ...prev,
+      text: textInput,
+      isActive: true,
+      animation: animationType,
+    }));
+    setTimeout(() => {
+      setPopupSettings((prev: popupType) => ({
+        ...prev,
+        isActive: false,
+      }));
+    }, 2000);
+  };
+
   const addElementToDo = (result: any) => {
     if (result) {
       console.log("Shuttle aggiunto:", result);
     } else {
-      alert("Dati errati");
+      console.log(result);
+      setTimeoutFunc("Dati errati", "animate__headShake");
     }
   };
 
@@ -36,16 +53,18 @@ const AddElementForm = (props: {
         name: "",
         mission: "",
       });
-      alert("Aggiunto");
+      setTimeoutFunc("Veicolo aggiunto", "animate__bounceIn");
     } else {
-      alert("Nome già presente");
+      setTimeoutFunc("Nome già presente nel database", "animate__headShake");
+    }
+    if (shuttleData.name === "" || shuttleData.mission === "") {
+      setTimeoutFunc("Devi compilare tutti i campi", "animate__headShake");
     }
   };
 
   return (
     <div className=" text-text flex flex-col md:flex-row justify-center items-center gap-3 p-5 ">
-      <h2 className="self-start mb-3">Inserisci un nuovo shuttle</h2>
-      <div className="bg-primary rounded px-2 w-[90%] ">
+      <div className="bg-primary rounded p-2 w-[90%] ">
         <label htmlFor="name" className="px-4 text-xs text-lowGrey">
           Nome shuttle
         </label>
@@ -58,7 +77,7 @@ const AddElementForm = (props: {
           }
         />
       </div>
-      <div className="bg-primary rounded px-2 w-[90%] ">
+      <div className="bg-primary rounded p-2 w-[90%] ">
         <label htmlFor="mission" className="px-4 text-xs text-lowGrey">
           Missione
         </label>

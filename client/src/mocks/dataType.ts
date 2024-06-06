@@ -13,3 +13,9 @@ export interface shuttlesDataType {
   name: string;
   mission: string;
 }
+
+export interface popupType {
+  text: string;
+  isActive: boolean;
+  animation: string;
+}
